@@ -1,0 +1,51 @@
+Docker- Paas 
+provides container
+ characteristics
+1.Efficiency
+2.Reproducability
+3.Scalability
+4.Portability
+
+Docker Image
+Docker Engine
+Docker Hub
+Docker File
+Docker Registry
+
+wsl --update
+>docker pull hello-world
+
+docker run hello-world
+
+remove img 
+docker kill 
+sha256:74cc54e27dc41bb10dc4b2226072d469509f2f22f1a3ce74f4a59661a1d44602
+
+docker stop cont id
+
+
+create Dockerfile not text
+
+inside{
+
+FROM nginx:latest{server}
+
+server path//
+to bring to windows to linux    
+COPY index.html /usr/share/nginx/html/index.html                                                                                
+
+EXPOSE 80
+}
+
+cmd
+
+{
+img//
+
+docker build . -t nieise
+container//
+docker run -d -p 8080:80 nieise:latest
+
+clickn path /port in container
+}
+                                                                                                            
