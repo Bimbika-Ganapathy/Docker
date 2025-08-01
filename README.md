@@ -1,0 +1,2 @@
+-docker network ps 
+-docker network create mynetwork -d bridge
