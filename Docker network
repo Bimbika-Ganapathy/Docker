@@ -1,0 +1,73 @@
+docker build -t two-tier-backend .
+-docker images
+- docker run -d -p 5000:5000 -e MYSQL_HOST=mysql -e MYSQL_USER=root -e MYSQL_PASSWORD=root -e MYSQL_DB=devops two-tier-backend:latest
+# port env vars from config ,tag
+
+docker ps -a
+all containers #
+
+docker logs 909b1ac3d6aa
+
+> docker stop f9d2498a2f53 ; docker rm f9d2498a2f53
+
+create a network 1st 
+> docker network create twoo-tier -d bridge
+give the network to both of the containers 
+1} first to sql container 
+>docker run -d --network twoo-tier -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=devops mysql
+- 
+# port env vars from config ,tag
+2} then to the flask container
+>docker run -d -p 5000:5000 --network twoo-tier -e MYSQL_HOST=mysql -e MYSQL_USER=root -e MYSQL_PASSWORD=root -e MYSQL_DB=devops two-tier-backend:latest
+
+> docker ps
+
+docker run -d -p 5000:5000 --name flask-app --network twoo-tier -e MYSQL_HOST=mysql -e MYSQL_USER=root   -e MYSQL_PASSWORD=root -e MYSQL_DB=devops two-tier-backend:latest
+
+docker run -d  --name mysql --network twoo-tier -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=devops -p 3306:3306  mysql:latest
+
+
+
+mysql container-->
+two-tier-flask-app> docker run -d  --name mysql --network twoo-tier -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=devops -p 3307:3306  mysql:latest
+
+flask--->container 
+> docker run -d -p 5000:5000 --name flask-app --network twoo-tier -e MYSQL_HOST=mysql -e MYSQL_USER=root   -e MYSQL_PASSWORD=root -e MYSQL_DB=devops two-tier-backend:latest
+
+
+> docker inspect twoo-tier
+
+
+   "ConfigOnly": false,
+        "Containers": {
+            "29a1363fd59260bddaa63f9fcb3156589b59cdca9adae9d6e631dab9aea64ddd": {
+                "Name": "flask-app",
+                "EndpointID": "40e5e8127349bda629e09e394a1f53b043964cde791df5114785bc8aa8173351",
+                "MacAddress": "02:42:ac:14:00:03",
+                "IPv4Address": "172.20.0.3/16",
+                "IPv6Address": ""
+            },
+            "3fa6f8f7703970f2c5e0979d9bcdea9c71baa8ae0b0f44621281a385d83cc574": {
+                "Name": "mysql",
+                "EndpointID": "fddcb5fca99e91de1488164a618b0812826335dadb67919164759446f3fd0bd6",
+                "MacAddress": "02:42:ac:14:00:02",
+                "IPv4Address": "172.20.0.2/16",
+                "IPv6Address": ""
+            }
+
+docker exec -it 3fa6f8f77039 bash
+
+mysql> use devops;
+
+mysql> select * from messages
+mysql> select * from messages
+    -> ;
++----+-------------------------------------------+
+| id | message                                   |
++----+-------------------------------------------+
+|  1 | hello dosto                               |
+|  2 | hi                                        |
+|  3 | im bimbi                                  |
+|  4 | agar db mein jaega toh hi upar ke kam kro |
++----+-------------------------------------------+
+4 rows in set (0.004 sec)
