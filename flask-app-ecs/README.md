@@ -28,6 +28,11 @@ exit - out of instance
 7.Find all images
       Docker images
 
+
+       docker run -itd ubuntu 
+       to keep the img running in detached mode
+       
+
  
 
   1.Install a new image
